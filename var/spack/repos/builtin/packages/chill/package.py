@@ -29,6 +29,8 @@ class Chill(AutotoolsPackage):
     depends_on('flex', type='build')
     depends_on('python@2.7.18:2.7.99')
 
+    patch('Add-GCC-libquadmath-for-rose.patch')
+
     build_directory = 'spack-build'
 
     def autoreconf(self, spec, prefix):
