@@ -27,8 +27,10 @@ class Chill(AutotoolsPackage):
     depends_on('iegenlib', type='build')
     depends_on('bison@3.4:', type='build')
     depends_on('flex', type='build')
+    depends_on('isl', type='build')
     depends_on('python@2.7.18:2.7.99')
 
+    patch('Add-ISLHOME-option.patch')
     patch('Add-GCC-libquadmath-for-rose.patch')
 
     build_directory = 'spack-build'
@@ -41,27 +43,33 @@ class Chill(AutotoolsPackage):
         rose_home  = self.spec['rose'].prefix
         boost_home = self.spec['boost'].prefix
         iegen_home = self.spec['iegenlib'].prefix
+        isl_home = self.spec['isl'].prefix
 
         env.set('ROSEHOME', rose_home)
         env.set('BOOSTHOME', boost_home)
         env.set('IEGENHOME', iegen_home)
+        env.set('ISLHOME', isl_home)
 
         env.append_path('LD_LIBRARY_PATH', rose_home.lib)
         env.append_path('LD_LIBRARY_PATH', boost_home.lib)
         env.append_path('LD_LIBRARY_PATH', iegen_home.lib)
+        env.append_path('LD_LIBRARY_PATH', isl_home.lib)
 
     def setup_run_environment(self, env):
         rose_home  = self.spec['rose'].prefix
         boost_home = self.spec['boost'].prefix
         iegen_home = self.spec['iegenlib'].prefix
+        isl_home = self.spec['isl'].prefix
 
         env.append_path('LD_LIBRARY_PATH', rose_home.lib)
         env.append_path('LD_LIBRARY_PATH', boost_home.lib)
         env.append_path('LD_LIBRARY_PATH', iegen_home.lib)
+        env.append_path('LD_LIBRARY_PATH', isl_home.lib)
 
     def configure_args(self):
         args = ['--with-rose={0}'.format(self.spec['rose'].prefix),
                 '--with-boost={0}'.format(self.spec['boost'].prefix),
-                '--with-iegen={0}'.format(self.spec['iegenlib'].prefix)]
+                '--with-iegen={0}'.format(self.spec['iegenlib'].prefix),
+                '--with-isl={0}'.format(self.spec['isl'].prefix)]
 
         return args
