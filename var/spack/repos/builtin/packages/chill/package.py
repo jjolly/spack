@@ -24,7 +24,7 @@ class Chill(AutotoolsPackage):
     depends_on('automake@1.14:',  type='build')
     depends_on('libtool', type='build')
     depends_on('m4', type='build')
-    depends_on('iegenlib', type='build')
+    depends_on('iegenlib', type=('build','run'))
     depends_on('bison@3.4:', type='build')
     depends_on('flex', type='build')
     depends_on('isl', type='build')
